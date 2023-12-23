@@ -1,9 +1,25 @@
-.DS_Store
-.env.*
-.env_*
-!.env_example
-secret*
+**/*secret*
+**/*.log
+**/*.pyc
+**/__pycache__/
+**/*.env*
+**/.venv
+**/env/
+**/venv/
+**/ENV/
+**/*.test
+**/tests/
+.vscode/
+**/.idea/
+**/Dockerfile
+**/docker-compose.yml
+**/*ignore*
+
+.env*
+!.env-example
+*secret*
 *local*
+**/.DS_Store
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

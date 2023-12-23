@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: django-deployment
+  namespace: veg-hw
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: django
+  template:
+    metadata:
+      labels:
+        app: django
+    spec:
+
+      initContainers:
+        - name: migrate
+          image: sealpavel/halloween_vegan_backend
+          envFrom:
+            - secretRef:
+                name: django-secret
+            - secretRef:
+                name: postgres-secret
+          env:
+            - name: DJANGO_SETTINGS_MODULE
+              value: "app.halloween_vegan_backend.settings"
+          command: [ 'python', 'app/manage.py', 'migrate' ]
+
+      containers:
+      - name: django
+        image: sealpavel/halloween_vegan_backend # ваше_имя_пользователя_docker_hub/my-django-app
+        ports:
+          - containerPort: 8000
+        envFrom:
+          - secretRef:
+              name: django-secret
+          - secretRef:
+              name: postgres-secret

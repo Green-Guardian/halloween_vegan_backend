@@ -1,0 +1,76 @@
+name: Django CI/CD (halloween_vegan_backend)
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  # Job для тестирования
+  test:
+    runs-on: ubuntu-latest
+    # Определяет сервисы, необходимые для job, в данном случае сервис PostgreSQL
+    services:
+      postgres:
+        image: postgres:13
+        env:  # Передает переменные окружения, необходимые для настройки сервиса
+          POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+    - name: Checkout code  # Проверяет код из репозитория
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.10'
+
+    - name: Install dependencies
+      run: |
+        pip install -r ./app/requirements.txt
+
+    - name: Wait for PostgreSQL to be ready
+      run: until pg_isready -h localhost -p 5432; do sleep 2; done
+
+    - name: Run tests
+      env:  # Передает переменные окружения, необходимые для подключения к тестовой базе данных
+        POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+        POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+        POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+        POSTGRES_HOST: localhost
+        POSTGRES_PORT: 5432
+        DJANGO_SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
+      run: |
+        python ./app/manage.py test
+
+  # Job для сборки и деплоя
+  build-and-deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Build and Push Docker image
+      run: |
+        docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/halloween_vegan_backend:latest ./app
+        echo ${{ secrets.DOCKERHUB_TOKEN }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+        docker push ${{ secrets.DOCKERHUB_USERNAME }}/halloween_vegan_backend:latest
+
+    - name: Set up Kubernetes  # Настраивает kubectl для использования в job
+      uses: azure/setup-kubectl@v1
+
+    - name: Set up Kubeconfig  # Настраивает kubeconfig для подключения к кластеру Kubernetes
+      run: echo "${{ secrets.KUBE_CONFIG_DATA }}" | base64 -d > $HOME/.kube/config
+
+    - name: Deploy to Kubernetes  # Деплоит обновления в Kubernetes
+      run: |
+        kubectl set image deployment/django-deployment django=${{ secrets.DOCKERHUB_USERNAME }}/halloween_vegan_backend:latest -n veg-hw
