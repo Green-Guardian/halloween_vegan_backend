@@ -16,7 +16,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent  # /Users/seal/Python/halloween_vegan_backend/app
+BASE_DIR = Path(__file__).resolve().parent.parent
 
 load_dotenv(f"{BASE_DIR}/.env")
 load_dotenv(f"../postgres/.env")
