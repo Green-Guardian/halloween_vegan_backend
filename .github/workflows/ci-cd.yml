@@ -7,13 +7,13 @@ on:
 
 jobs:
   # Job для тестирования
-  test:
+  Tests:
     runs-on: ubuntu-latest
     # Определяет сервисы, необходимые для job, в данном случае сервис PostgreSQL
     services:
       postgres:
         image: postgres:13
-        env:  # Передает переменные окружения, необходимые для настройки сервиса
+        env: # Передает переменные окружения, необходимые для настройки сервиса
           POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
           POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
           POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
@@ -26,51 +26,72 @@ jobs:
           --health-retries 5
 
     steps:
-    - name: Checkout code  # Проверяет код из репозитория
-      uses: actions/checkout@v2
+      - name: Checkout code  # Проверяет код из репозитория
+        uses: actions/checkout@v2
 
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.10'
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.10'
 
-    - name: Install dependencies
-      run: |
-        pip install -r ./app/requirements.txt
+      - name: Install dependencies
+        run: |
+          pip install -r ./app/requirements.txt
 
-    - name: Wait for PostgreSQL to be ready
-      run: until pg_isready -h localhost -p 5432; do sleep 2; done
+      - name: Wait for PostgreSQL to be ready
+        run: until pg_isready -h localhost -p 5432; do sleep 2; done
 
-    - name: Run tests
-      env:  # Передает переменные окружения, необходимые для подключения к тестовой базе данных
-        POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
-        POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
-        POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-        POSTGRES_HOST: localhost
-        POSTGRES_PORT: 5432
-        DJANGO_SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
-      run: |
-        python ./app/manage.py test
+      - name: Run django tests
+        env: # Передает переменные окружения, необходимые для подключения к тестовой базе данных
+          PYTHONPATH: ${{ github.workspace }}
+          POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+          POSTGRES_HOST: localhost
+          POSTGRES_PORT: 5432
+          DJANGO_SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
+          DJANGO_DEBUG: ${{ secrets.DJANGO_DEBUG }}
+        run: |
+          python ./app/manage.py test
 
-  # Job для сборки и деплоя
-  build-and-deploy:
-    needs: test
+  Docker:
+    needs: Tests
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
-    - name: Build and Push Docker image
-      run: |
-        docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/halloween_vegan_backend:latest ./app
-        echo ${{ secrets.DOCKERHUB_TOKEN }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
-        docker push ${{ secrets.DOCKERHUB_USERNAME }}/halloween_vegan_backend:latest
+      - name: Build and Push Docker image
+        run: |
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/halloween_vegan_backend:${{ github.sha }} ./app
+          echo ${{ secrets.DOCKERHUB_TOKEN }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/halloween_vegan_backend:${{ github.sha }}
 
-    - name: Set up Kubernetes  # Настраивает kubectl для использования в job
-      uses: azure/setup-kubectl@v1
+      - name: Scan image with Trivy
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: 'docker.io/${{ secrets.DOCKERHUB_USERNAME }}/halloween_vegan_backend:${{ github.sha }}'
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+          severity: 'CRITICAL,HIGH'
 
-    - name: Set up Kubeconfig  # Настраивает kubeconfig для подключения к кластеру Kubernetes
-      run: echo "${{ secrets.KUBE_CONFIG_DATA }}" | base64 -d > $HOME/.kube/config
+  Kuber:
+    needs: Docker
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
 
-    - name: Deploy to Kubernetes  # Деплоит обновления в Kubernetes
-      run: |
-        kubectl set image deployment/django-deployment django=${{ secrets.DOCKERHUB_USERNAME }}/halloween_vegan_backend:latest -n veg-hw
+      - uses: tale/kubectl-action@v1
+        with:
+          base64-kube-config: ${{ secrets.KUBE_CONFIG_DATA }}
+      - name: Deploy to Kubernetes and apply manifests
+        env:
+          PYTHONPATH: ${{ github.workspace }}
+        run: |
+          kubectl apply -f shared-k8s/namespace-vegan-halloween.yaml
+          kubectl apply -f shared-k8s/ingress-class.yaml
+          kubectl apply -f postgres/k8s/pg-statefulset.yaml
+          kubectl apply -f postgres/k8s/pg-service.yaml
+          kubectl apply -f app/k8s/django-deployment.yaml
+          kubectl apply -f app/k8s/django-ingress.yaml
+          kubectl apply -f app/k8s/django-service.yaml
+          kubectl set image deployment/django-deployment django=${{ secrets.DOCKERHUB_USERNAME }}/halloween_vegan_backend:${{ github.sha }} -n veg-hw
