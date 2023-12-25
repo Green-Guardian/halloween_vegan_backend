@@ -41,16 +41,3 @@ kubectl apply -f ./postgres/k8s/pg-secret.yaml
 ```sh
 kubectl apply -f ./app/k8s/django-secret.yaml
 ```
-### Сборка образа
-#### [$ docker build -t ваше_имя_пользователя_docker_hub/my-django-app ./app]
-```sh
-docker build -t sealpavel/halloween_vegan_backend ./app
-```
-### Авторизация и деплой образа в dockerHub
-#### [$ docker push ваше_имя_пользователя_docker_hub/my-django-app]
-```sh
-docker login
-```
-```sh
-docker push sealpavel/halloween_vegan_backend
-```
