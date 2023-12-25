@@ -9,6 +9,17 @@ This repository is the backend for the [halloween.veganrussian.ru](https://hallo
 
 # Launch🚀
 
+### Хранение данных
+
+Для локальной разработки и тестирования достаточно docker desktop с включенной поддержкой kubernetes.
+
+Для сервера можно использовать [Local Path Provisioner](https://github.com/rancher/local-path-provisioner):
+
+```sh
+kubectl apply -f https://raw.githubusercontent.com/rancher/local-path-provisioner/master/deploy/local-path-storage.yaml
+```
+или создать свой StorageClass.
+
 ### Заполнить .env файлы своими данными
 ```sh
 sudo nano путь/до/файла/.env
