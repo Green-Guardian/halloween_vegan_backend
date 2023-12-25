@@ -29,7 +29,7 @@ spec:
 
       containers:
       - name: django
-        image: sealpavel/halloween_vegan_backend # ваше_имя_пользователя_docker_hub/my-django-app
+        image: sealpavel/halloween_vegan_backend
         ports:
           - containerPort: 8000
         envFrom:
