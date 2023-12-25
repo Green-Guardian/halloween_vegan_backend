@@ -30,7 +30,7 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DJANGO_DEBUG').lower() == 'true'
 
-ALLOWED_HOSTS = ['127.0.0.1', os.getenv('POSTGRES_HOST', 'localhost')]
+ALLOWED_HOSTS = ['127.0.0.1', os.getenv('POSTGRES_HOST', 'localhost'), '.seal-pavel.website']
 
 # Application definition
 INSTALLED_APPS = [
