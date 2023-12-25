@@ -5,6 +5,7 @@ metadata:
   namespace: veg-hw
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/proxy-body-size: "4M"
 spec:
   ingressClassName: nginx
   rules:
