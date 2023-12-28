@@ -3,7 +3,7 @@
 set -e
 
 echo "[INFO] Generating static content"
-python app/manage.py collectstatic
+python app/manage.py collectstatic --noinput
 
 echo "[INFO] Running django tests: $ python ./app/manage.py test"
 python app/manage.py test

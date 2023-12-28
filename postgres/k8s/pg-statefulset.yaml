@@ -29,7 +29,6 @@ spec:
   volumeClaimTemplates:
   - metadata:
       name: pgdata
-      namespace: veg-hw
     spec:
       accessModes: ["ReadWriteOnce"]
       resources:
