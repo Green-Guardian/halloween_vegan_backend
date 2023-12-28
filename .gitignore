@@ -16,7 +16,7 @@
 **/*ignore*
 **/*OLD*
 **/*old*
-**/*static*
+**/*static*/
 
 .env*
 !.env-example

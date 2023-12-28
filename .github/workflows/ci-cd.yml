@@ -91,7 +91,8 @@ jobs:
           kubectl apply -f shared-k8s/ingress-class.yaml
           kubectl apply -f postgres/k8s/pg-statefulset.yaml
           kubectl apply -f postgres/k8s/pg-service.yaml
-          kubectl apply -f app/k8s/django-pv-pvc-static.yaml
+          kubectl apply -f app/k8s/django-pv-static.yaml
+          kubectl apply -f app/k8s/django-pvc-static.yaml
           kubectl apply -f app/k8s/django-deployment.yaml
           kubectl apply -f app/k8s/django-service.yaml
           kubectl apply -f app/k8s/django-ingress.yaml
