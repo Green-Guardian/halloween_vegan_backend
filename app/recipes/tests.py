@@ -18,7 +18,7 @@ class RecipeTests(APITestCase):
         sugar = Ingredient.objects.get(name='Sugar')
 
         # image_path = settings.MEDIA_ROOT / 'recipes' / 'for_tests.jpg'
-        image_path = 'for_tests.jpg'
+        image_path = './for_tests.jpg'
         with open(image_path, 'rb') as img_file:
             image_content = img_file.read()
         assert image_content, f"File is empty or couldn't be read: {image_path}"
