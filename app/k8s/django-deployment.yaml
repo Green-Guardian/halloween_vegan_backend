@@ -41,7 +41,7 @@ spec:
             value: "app.halloween_vegan_backend.settings"
         volumeMounts:
           - name: static-content
-            mountPath: "app/staticfiles"
+            mountPath: "/halloween_vegan_backend/app/staticfiles"
 
       volumes:
         - name: static-content
