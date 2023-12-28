@@ -13,7 +13,6 @@ spec:
       labels:
         app: django
     spec:
-
       initContainers:
         - name: migrate
           image: sealpavel/halloween_vegan_backend
@@ -37,3 +36,11 @@ spec:
               name: django-secret
           - secretRef:
               name: postgres-secret
+        volumeMounts:
+          - name: static-content
+            mountPath: "app/staticfiles"
+
+      volumes:
+        - name: static-content
+          persistentVolumeClaim:
+            claimName: static-content-claim
