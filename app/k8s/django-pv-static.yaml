@@ -10,3 +10,4 @@ spec:
     - ReadWriteOnce
   hostPath:
     path: "/mnt/data/halloween_vegan_backend/staticfiles"
+  persistentVolumeReclaimPolicy: Delete
