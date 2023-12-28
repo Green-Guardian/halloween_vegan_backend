@@ -17,13 +17,12 @@ class RecipeTests(APITestCase):
         Ingredient.objects.create(name='Sugar')
         sugar = Ingredient.objects.get(name='Sugar')
 
-        # image_path = settings.MEDIA_ROOT / 'recipes' / 'for_tests.jpg'
-        # with open(image_path, 'rb') as img_file:
-        #     image_content = img_file.read()
-        # assert image_content, f"File is empty or couldn't be read: {image_path}"
-        #
-        # image = SimpleUploadedFile(name='for_tests.jpg', content=image_content, content_type='image/jpeg')
-        image = SimpleUploadedFile(name='test.jpg', content=b'fake image data', content_type='image/jpeg')
+        image_path = settings.MEDIA_ROOT / 'recipes' / 'for_tests.jpg'
+        with open(image_path, 'rb') as img_file:
+            image_content = img_file.read()
+        assert image_content, f"File is empty or couldn't be read: {image_path}"
+
+        image = SimpleUploadedFile(name='for_tests.jpg', content=image_content, content_type='image/jpeg')
 
         data = {
             'title': 'Test Recipe',
