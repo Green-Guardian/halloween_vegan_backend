@@ -12,6 +12,7 @@ router.register(r'recipes', RecipeViewSet)
 router.register(r'ingredients', IngredientViewSet)
 
 urlpatterns = [
+    path('o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
     path('', include(router.urls)),
     path('admin/', admin.site.urls),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

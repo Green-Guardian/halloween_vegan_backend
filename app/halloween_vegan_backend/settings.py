@@ -36,6 +36,7 @@ CSRF_TRUSTED_ORIGINS = ['https://*.seal-pavel.website', ]
 
 # Application definition
 INSTALLED_APPS = [
+    'oauth2_provider',
     'rest_framework',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -129,8 +130,11 @@ USE_TZ = True
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'oauth2_provider.contrib.rest_framework.OAuth2Authentication',
+    ],
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.AllowAny',
+        'rest_framework.permissions.IsAuthenticated',
     ],
     'DEFAULT_RENDERER_CLASSES': [
         'rest_framework.renderers.JSONRenderer',
