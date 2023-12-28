@@ -42,8 +42,13 @@ spec:
         volumeMounts:
           - name: static-content
             mountPath: "/halloween_vegan_backend/app/staticfiles"
+          - name: media-content
+            mountPath: "/halloween_vegan_backend/app/media"
 
       volumes:
         - name: static-content
           persistentVolumeClaim:
             claimName: static-content-claim
+        - name: media-content
+          persistentVolumeClaim:
+            claimName: media-content-claim
