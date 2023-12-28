@@ -36,6 +36,9 @@ spec:
               name: django-secret
           - secretRef:
               name: postgres-secret
+        env:
+          - name: DJANGO_SETTINGS_MODULE
+            value: "app.halloween_vegan_backend.settings"
         volumeMounts:
           - name: static-content
             mountPath: "app/staticfiles"
