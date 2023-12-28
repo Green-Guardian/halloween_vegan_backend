@@ -32,7 +32,7 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DJANGO_DEBUG', 'false').lower() == 'true'
 
-ALLOWED_HOSTS = ['.seal-pavel.website', '127.0.0.1', os.getenv('POSTGRES_HOST', 'localhost'), ]
+ALLOWED_HOSTS = ['80.90.187.166', '.seal-pavel.website', '127.0.0.1', os.getenv('POSTGRES_HOST', 'localhost'), ]
 CSRF_TRUSTED_ORIGINS = ['https://*.seal-pavel.website', ]
 
 # Application definition
