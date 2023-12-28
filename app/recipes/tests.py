@@ -37,6 +37,7 @@ class RecipeTests(APITestCase):
         }
 
         response = self.client.post(url, data, format='multipart')
+        print(response.data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(Recipe.objects.count(), 1)
         self.assertEqual(Recipe.objects.get().title, 'Test Recipe')
