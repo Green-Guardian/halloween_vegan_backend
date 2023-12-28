@@ -1,13 +1,10 @@
-import os
-
-from django.urls import reverse
-from django.core.files.uploadedfile import SimpleUploadedFile
 from app.halloween_vegan_backend import settings
+from app.recipes.models import Recipe, Ingredient
 
+from django.core.files.uploadedfile import SimpleUploadedFile
+from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
-
-from app.recipes.models import Recipe, Ingredient
 
 
 class RecipeTests(APITestCase):
@@ -20,14 +17,17 @@ class RecipeTests(APITestCase):
         Ingredient.objects.create(name='Sugar')
         sugar = Ingredient.objects.get(name='Sugar')
 
-        image_path = settings.MEDIA_ROOT / 'recipes' / 'for_tests.jpg'
-        with open(image_path, 'rb') as img_file:
-            image_content = img_file.read()
-        assert image_content, f"File is empty or couldn't be read: {image_path}"
+        # image_path = settings.MEDIA_ROOT / 'recipes' / 'for_tests.jpg'
+        # with open(image_path, 'rb') as img_file:
+        #     image_content = img_file.read()
+        # assert image_content, f"File is empty or couldn't be read: {image_path}"
+        #
+        # image = SimpleUploadedFile(name='for_tests.jpg', content=image_content, content_type='image/jpeg')
+        image = SimpleUploadedFile(name='test.jpg', content=b'fake image data', content_type='image/jpeg')
 
         data = {
             'title': 'Test Recipe',
-            'image': SimpleUploadedFile(name='for_tests.jpg', content=image_content, content_type='image/jpeg'),
+            'image': image,
             'author': 'Test Author',
             'year': 2021,
             'description': 'This is a test description.',
