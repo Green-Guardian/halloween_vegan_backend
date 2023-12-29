@@ -24,7 +24,12 @@ spec:
           env:
             - name: DJANGO_SETTINGS_MODULE
               value: "app.halloween_vegan_backend.settings"
-          command: [ 'python', 'app/manage.py', 'migrate' ]
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              echo "[INFO] Applying database migrations"
+              python app/manage.py migrate &&
+              python app/manage.py migrate oauth2_provider
 
       containers:
       - name: django
