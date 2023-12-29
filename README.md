@@ -69,7 +69,7 @@ kubectl apply -f ./app/k8s/django-secret.yaml
 ### Ingress Controller(Reverse Proxy)
 Для локальной разработки можно вместо прокси использовать port-forward до пода с приложением:
 ```sh
-kubectl port-forward service/<deployment_name> <local_port>:<remote_port>
+kubectl port-forward service/<deployment_name> <local_port>:<remote_port> -n veg-hw
 ```
 Для сервера я использую NGINX Ingress Controller:
 ```sh
