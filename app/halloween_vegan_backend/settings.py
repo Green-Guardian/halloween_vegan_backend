@@ -22,26 +22,25 @@ STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesSto
 MEDIA_ROOT = BASE_DIR / 'media'
 MEDIA_URL = '/media/'
 
-OAUTH2_PROVIDER = {
-    'ACCESS_TOKEN_EXPIRE_SECONDS': 86500,
-    'ERROR_RESPONSE_WITH_SCOPES': True,
-}
+# OAUTH2_PROVIDER = {
+#     'ACCESS_TOKEN_EXPIRE_SECONDS': 86500,
+#     'ERROR_RESPONSE_WITH_SCOPES': True,
+# }
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'django-insecure-sdfSDFg7654#OWE$%^yhdjMHk)&^%@fghdsdfsdfHJSD')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('DJANGO_DEBUG', 'false').lower() == 'true'
+DEBUG = os.getenv('DJANGO_DEBUG', 'true').lower() == 'true'
 
 ALLOWED_HOSTS = ['80.90.187.166', '.seal-pavel.website', '127.0.0.1', os.getenv('POSTGRES_HOST', 'localhost'), ]
 CSRF_TRUSTED_ORIGINS = ['https://*.seal-pavel.website', ]
 
 # Application definition
 INSTALLED_APPS = [
-    'oauth2_provider',
     'rest_framework',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -88,9 +87,9 @@ WSGI_APPLICATION = 'app.halloween_vegan_backend.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('POSTGRES_DB', 'default_db_name'),
-        'USER': os.getenv('POSTGRES_USER', 'default_user'),
-        'PASSWORD': os.getenv('POSTGRES_PASSWORD', 'default_password'),
+        'NAME': os.getenv('POSTGRES_DB', 'halloween_vegan_backend'),
+        'USER': os.getenv('POSTGRES_USER', 'user'),
+        'PASSWORD': os.getenv('POSTGRES_PASSWORD', 'password'),
         'HOST': os.getenv('POSTGRES_HOST', 'localhost'),
         'PORT': os.getenv('POSTGRES_PORT', '5432'),
     },
@@ -135,9 +134,6 @@ USE_TZ = True
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'oauth2_provider.contrib.rest_framework.OAuth2Authentication',
-    ],
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
     ],
