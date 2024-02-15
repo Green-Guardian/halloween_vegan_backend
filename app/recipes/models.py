@@ -9,8 +9,13 @@ def custom_slugify(text, *args, **kwargs):
     return uuslug_slugify(text, *args, **kwargs)
 
 
+def upload_to_directory(instance, filename):
+    current_year = now().year
+    return f'recipes/{current_year}/{filename}'
+
+
 class Recipe(models.Model):
-    image = models.ImageField(upload_to='recipes/')
+    image = models.ImageField(upload_to=upload_to_directory)
     title = models.CharField(max_length=200, unique=True)
     author = models.CharField(max_length=100)
     author_link = models.URLField(blank=True)

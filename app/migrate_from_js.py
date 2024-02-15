@@ -31,7 +31,7 @@ def find_image_file(path, original_extension):
 def migrate_recipes(data):
     for year, recipes in data.items():
         for recipe_data in recipes:
-            image_relative_path = recipe_data['image'].replace('./images/', 'media/')
+            image_relative_path = recipe_data['image'].replace('./images/recipes/', '')
             image_file = find_image_file(image_relative_path, '.webp')
 
             recipe = Recipe(
