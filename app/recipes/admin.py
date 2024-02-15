@@ -1,15 +1,39 @@
 from django.contrib import admin
-from app.recipes.models import Recipe, Ingredient
+from django.utils.html import format_html
 
-privileged_groups = ('main', 'seal', 'admin',)
+from app.recipes.models import Recipe
+from app.recipes.forms import RecipeForm
+
+privileged_groups = [group.lower() for group in
+                     ('main', 'seal', 'admin',)]
 sensitive_fields = ('place', 'is_active',)
 
 
 class RecipeAdmin(admin.ModelAdmin):
+    form = RecipeForm
     search_fields = ('title', 'description')
     list_filter = ('is_active', 'category', 'year', 'place',)
+    list_display = ('title', 'is_active', 'image_thumbnail')
+    readonly_fields = ('image_thumbnail',)
 
-    filter_horizontal = ('ingredients',)
+    fieldsets = (
+        ('Participant', {
+            'fields': ('author', 'author_link',)
+        }),
+        ('Recipe', {
+            'fields': ('image_thumbnail', 'image', 'title', 'description', 'ingredients', 'tools', 'steps',)
+        }),
+        ('Other', {
+            'fields': ('category', 'year', 'place', 'is_active',)
+        }),
+    )
+
+    def image_thumbnail(self, obj=None):
+        if obj and obj.image:
+            return format_html('<img src="{}" style="width: 75px; height:auto;" />', obj.image.url)
+        return "-"
+
+    image_thumbnail.short_description = 'Image Preview'
 
     def get_form(self, request, obj=None, **kwargs):
         user_groups = [group.lower() for group in request.user.groups.values_list('name', flat=True)]
@@ -23,4 +47,3 @@ class RecipeAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Recipe, RecipeAdmin)
-admin.site.register(Ingredient)
