@@ -9,12 +9,25 @@ privileged_groups = [group.lower() for group in
 sensitive_fields = ('place', 'is_active',)
 
 
+def publish_recipes(modeladmin, request, queryset):
+    queryset.update(is_active=True)
+
+
+def unpublish_recipes(modeladmin, request, queryset):
+    queryset.update(is_active=False)
+
+
+publish_recipes.short_description = "Publish selected recipes"
+unpublish_recipes.short_description = "Unpublish selected recipes"
+
+
 class RecipeAdmin(admin.ModelAdmin):
     form = RecipeForm
     search_fields = ('title', 'description')
     list_filter = ('is_active', 'category', 'year', 'place',)
     list_display = ('title', 'is_active', 'image_thumbnail')
     readonly_fields = ('image_thumbnail',)
+    actions = (publish_recipes, unpublish_recipes)
 
     fieldsets = (
         ('Participant', {
