@@ -27,7 +27,7 @@ class Recipe(models.Model):
     category = models.CharField(max_length=100)
     year = models.PositiveIntegerField(default=now().year)
     place = models.IntegerField(blank=True, null=True)
-    is_active = models.BooleanField(default=False)
+    published = models.BooleanField(default=False)
 
     slug = AutoSlugField(populate_from='title', unique=True, slugify=custom_slugify, always_update=True)
     created_at = models.DateTimeField(auto_now_add=True)

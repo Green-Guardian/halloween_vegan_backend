@@ -6,15 +6,15 @@ from app.recipes.forms import RecipeForm
 
 privileged_groups = [group.lower() for group in
                      ('main', 'seal', 'admin',)]
-sensitive_fields = ('place', 'is_active',)
+sensitive_fields = ('place', 'published',)
 
 
 def publish_recipes(modeladmin, request, queryset):
-    queryset.update(is_active=True)
+    queryset.update(published=True)
 
 
 def unpublish_recipes(modeladmin, request, queryset):
-    queryset.update(is_active=False)
+    queryset.update(published=False)
 
 
 publish_recipes.short_description = "Publish selected recipes"
@@ -24,8 +24,8 @@ unpublish_recipes.short_description = "Unpublish selected recipes"
 class RecipeAdmin(admin.ModelAdmin):
     form = RecipeForm
     search_fields = ('title', 'description')
-    list_filter = ('is_active', 'category', 'year', 'place',)
-    list_display = ('title', 'is_active', 'image_thumbnail')
+    list_filter = ('published', 'category', 'year', 'place',)
+    list_display = ('title', 'published', 'image_thumbnail')
     readonly_fields = ('image_thumbnail',)
     actions = (publish_recipes, unpublish_recipes)
 
@@ -37,7 +37,7 @@ class RecipeAdmin(admin.ModelAdmin):
             'fields': ('image_thumbnail', 'image', 'title', 'description', 'ingredients', 'tools', 'steps',)
         }),
         ('Other', {
-            'fields': ('category', 'year', 'place', 'is_active',)
+            'fields': ('category', 'year', 'place', 'published',)
         }),
     )
 

@@ -44,7 +44,7 @@ def migrate_recipes(data):
                 tools=recipe_data['tools'],
                 steps=recipe_data['steps'],
                 image=image_file,
-                is_active=recipe_data.get('isActive', False),
+                published=recipe_data.get('isActive', False),
                 place=recipe_data.get('place', None),
                 ingredients=[{'name': ing} for ing in recipe_data['ingredients']],
             )
