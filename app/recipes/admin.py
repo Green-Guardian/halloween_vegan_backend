@@ -33,15 +33,16 @@ class RecipeAdmin(admin.ModelAdmin):
     list_display = ('title', 'published', 'image_thumbnail')
     readonly_fields = ('image_thumbnail',)
     actions = (publish_recipes, unpublish_recipes)
-    fieldsets = (
+    base_fieldsets = (
         ('Participant', {
             'fields': ('author', 'author_link',)
         }),
         ('Recipe', {
-            'fields': ('image_thumbnail', 'image', 'title', 'description', 'ingredients', 'tools', 'steps',)
+            'fields': (
+            'image_thumbnail', 'image', 'title', 'description', 'ingredients', 'tools', 'steps', 'category', 'year',)
         }),
         ('Other', {
-            'fields': ('category', 'year',)
+            'fields': ('internal_comment',)
         }),
     )
 
@@ -53,23 +54,20 @@ class RecipeAdmin(admin.ModelAdmin):
 
     image_thumbnail.short_description = 'Image Preview'
 
-    # Отображение полей рецепта в зависимости от разрешений пользователя
+    # Динамическое изменение fieldsets в зависимости от разрешений пользователя
     def get_fieldsets(self, request, obj=None):
-        fieldsets = super().get_fieldsets(request, obj)
-        modified_fieldsets = []
+        fieldsets = list(self.base_fieldsets)  # Копируем базовую конфигурацию
+        admin_fields = []
 
-        for name, options in fieldsets:
-            fields = list(options["fields"])
+        if request.user.has_perm('recipes.can_choose_winners'):
+            admin_fields.append('place')
+        if request.user.has_perm('recipes.can_publish'):
+            admin_fields.append('published')
 
-            if name == 'Other':
-                if request.user.has_perm('recipes.can_choose_winners') and 'place' not in fields:
-                    fields.append('place')
-                if request.user.has_perm('recipes.can_publish') and 'published' not in fields:
-                    fields.append('published')
+        if admin_fields:
+            fieldsets.append(('Admin', {'fields': admin_fields}))
 
-            modified_fieldsets.append((name, {'fields': fields}))
-
-        return modified_fieldsets
+        return fieldsets
 
     def get_changeform_initial_data(self, request):
         initial = super(RecipeAdmin, self).get_changeform_initial_data(request)
