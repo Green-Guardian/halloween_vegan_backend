@@ -69,7 +69,7 @@ jobs:
       - name: Scan image with Trivy
         uses: aquasecurity/trivy-action@master
         with:
-          image-ref: 'docker.io/${{ secrets.DOCKERHUB_USERNAME }}/halloween_vegan_backend:${{ github.sha }}'
+          image-ref: 'docker.io/${{ secrets.DOCKERHUB_USERNAME }}/halloween_vegan_backend:latest'
           format: 'sarif'
           output: 'trivy-results.sarif'
           severity: 'CRITICAL,HIGH'
@@ -98,4 +98,4 @@ jobs:
           kubectl apply -f app/k8s/django-deployment.yaml
           kubectl apply -f app/k8s/django-service.yaml
           kubectl apply -f app/k8s/django-ingress.yaml
-          kubectl set image deployment/django-deployment django=${{ secrets.DOCKERHUB_USERNAME }}/halloween_vegan_backend:${{ github.sha }} -n veg-hw
+          kubectl set image deployment/django-deployment django=${{ secrets.DOCKERHUB_USERNAME }}/halloween_vegan_backend:latest -n veg-hw
