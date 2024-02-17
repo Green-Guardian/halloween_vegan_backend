@@ -13,18 +13,19 @@ spec:
       labels:
         app: django
     spec:
-#      initContainers:
-#        - name: migrate
-#          image: sealpavel/halloween_vegan_backend
-#          envFrom:
-#            - secretRef:
-#                name: django-secret
-#            - secretRef:
-#                name: postgres-secret
-#          env:
-#            - name: DJANGO_SETTINGS_MODULE
-#              value: "app.halloween_vegan_backend.settings"
-#          command: [ 'python', 'app/manage.py', 'migrate' ]
+
+      initContainers:
+        - name: migrate
+          image: sealpavel/halloween_vegan_backend
+          envFrom:
+            - secretRef:
+                name: django-secret
+            - secretRef:
+                name: postgres-secret
+          env:
+            - name: DJANGO_SETTINGS_MODULE
+              value: "app.halloween_vegan_backend.settings"
+          command: [ 'python', 'app/manage.py', 'migrate' ]
 
       containers:
       - name: django

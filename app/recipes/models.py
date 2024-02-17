@@ -25,7 +25,7 @@ class Recipe(models.Model):
     steps = models.JSONField(default=list)
 
     category = models.CharField(max_length=100)
-    year = models.PositiveIntegerField(default=now().year)
+    year = models.PositiveIntegerField()
     place = models.IntegerField(blank=True, null=True)
     published = models.BooleanField(default=False)
 

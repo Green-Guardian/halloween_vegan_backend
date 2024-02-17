@@ -6,57 +6,57 @@ on:
       - main
 
 jobs:
-#  # Job для тестирования
-#  Tests:
-#    runs-on: ubuntu-latest
-#    # Определяет сервисы, необходимые для job, в данном случае сервис PostgreSQL
-#    services:
-#      postgres:
-#        image: postgres:13
-#        env: # Передает переменные окружения, необходимые для настройки сервиса
-#          POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
-#          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
-#          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-#        ports:
-#          - 5432:5432
-#        options: >-
-#          --health-cmd pg_isready
-#          --health-interval 10s
-#          --health-timeout 5s
-#          --health-retries 5
-#
-#    steps:
-#      - name: Checkout code  # Проверяет код из репозитория
-#        uses: actions/checkout@v2
-#
-#      - name: Set up Python
-#        uses: actions/setup-python@v2
-#        with:
-#          python-version: '3.10'
-#
-#      - name: Install dependencies
-#        run: |
-#          pip install -r ./app/requirements.txt
-#
-#      - name: Wait for PostgreSQL to be ready
-#        run: until pg_isready -h localhost -p 5432; do sleep 2; done
-#
-#      - name: Run django tests
-#        env: # Передает переменные окружения, необходимые для подключения к тестовой базе данных
-#          PYTHONPATH: ${{ github.workspace }}
-#          POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
-#          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
-#          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-#          POSTGRES_HOST: localhost
-#          POSTGRES_PORT: 5432
-#          DJANGO_SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
-#          DJANGO_DEBUG: ${{ secrets.DJANGO_DEBUG }}
-#        run: |
-#          python ./app/manage.py test
+  # Job для тестирования
+  Tests:
+    runs-on: ubuntu-latest
+    # Определяет сервисы, необходимые для job, в данном случае сервис PostgreSQL
+    services:
+      postgres:
+        image: postgres:13
+        env: # Передает переменные окружения, необходимые для настройки сервиса
+          POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Checkout code  # Проверяет код из репозитория
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          pip install -r ./app/requirements.txt
+
+      - name: Wait for PostgreSQL to be ready
+        run: until pg_isready -h localhost -p 5432; do sleep 2; done
+
+      - name: Run django tests
+        env: # Передает переменные окружения, необходимые для подключения к тестовой базе данных
+          PYTHONPATH: ${{ github.workspace }}
+          POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+          POSTGRES_HOST: localhost
+          POSTGRES_PORT: 5432
+          DJANGO_SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
+          DJANGO_DEBUG: ${{ secrets.DJANGO_DEBUG }}
+        run: |
+          python ./app/manage.py test
 
   # Job для пуша и проверки образа
   Docker:
-#    needs: Tests
+    needs: Tests
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -67,13 +67,13 @@ jobs:
           echo ${{ secrets.DOCKERHUB_TOKEN }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/halloween_vegan_backend:${{ github.sha }}
 
-#      - name: Scan image with Trivy
-#        uses: aquasecurity/trivy-action@master
-#        with:
-#          image-ref: 'docker.io/${{ secrets.DOCKERHUB_USERNAME }}/halloween_vegan_backend:${{ github.sha }}'
-#          format: 'sarif'
-#          output: 'trivy-results.sarif'
-#          severity: 'CRITICAL,HIGH'
+      - name: Scan image with Trivy
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: 'docker.io/${{ secrets.DOCKERHUB_USERNAME }}/halloween_vegan_backend:${{ github.sha }}'
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+          severity: 'CRITICAL,HIGH'
 
   # Job для деплоя
   Kuber:

@@ -1,5 +1,6 @@
 from django.contrib import admin, messages
 from django.utils.html import format_html
+from django.utils.timezone import now
 
 from app.recipes.models import Recipe
 from app.recipes.forms import RecipeForm
@@ -69,6 +70,11 @@ class RecipeAdmin(admin.ModelAdmin):
             modified_fieldsets.append((name, {'fields': fields}))
 
         return modified_fieldsets
+
+    def get_changeform_initial_data(self, request):
+        initial = super(RecipeAdmin, self).get_changeform_initial_data(request)
+        initial['year'] = now().year
+        return initial
 
 
 admin.site.register(Recipe, RecipeAdmin)
