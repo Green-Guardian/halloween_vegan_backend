@@ -46,8 +46,8 @@ class RecipeForm(forms.ModelForm):
         ingredients_list = []
         for line in ingredients_str.splitlines():
             parts = line.split(' http')
-            ingredient = {"name": parts[0]}
+            ingredient = {"name": parts[0].strip()}
             if len(parts) == 2:
-                ingredient["url"] = 'http' + parts[1]
+                ingredient["url"] = 'http' + parts[1].strip()
             ingredients_list.append(ingredient)
         return ingredients_list
