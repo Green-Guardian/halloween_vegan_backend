@@ -19,13 +19,14 @@ class Recipe(models.Model):
     title = models.CharField(max_length=200, unique=True)
     author = models.CharField(max_length=100)
     author_link = models.URLField(blank=True)
-    description = models.TextField()
+    description = models.TextField(blank=True)
     ingredients = models.JSONField(default=list)
     tools = models.JSONField(default=list)
     steps = models.JSONField(default=list)
 
     category = models.CharField(max_length=100)
     year = models.PositiveIntegerField()
+    internal_comment = models.TextField(null=True, blank=True)
     place = models.IntegerField(blank=True, null=True)
     published = models.BooleanField(default=False)
 
