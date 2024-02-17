@@ -16,7 +16,8 @@ spec:
 
       initContainers:
         - name: migrate
-          image: sealpavel/halloween_vegan_backend
+          image: sealpavel/halloween_vegan_backend:latest
+          imagePullPolicy: Always
           envFrom:
             - secretRef:
                 name: django-secret
@@ -29,7 +30,8 @@ spec:
 
       containers:
       - name: django
-        image: sealpavel/halloween_vegan_backend
+        image: sealpavel/halloween_vegan_backend:latest
+        imagePullPolicy: Always
         ports:
           - containerPort: 8000
         envFrom:
