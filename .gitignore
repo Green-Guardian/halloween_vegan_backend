@@ -17,6 +17,7 @@
 **/*OLD*
 **/*old*
 **/*media*/
+**/*staticfiles*/
 
 .env*
 !.env-example
