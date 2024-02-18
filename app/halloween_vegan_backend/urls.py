@@ -9,7 +9,12 @@ from app.recipes.views import RecipeViewSet
 router = DefaultRouter()
 router.register(r'recipes', RecipeViewSet)
 
-urlpatterns = [
-    path('api/v1/', include(router.urls)),
-    path('admin/', admin.site.urls),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+urlpatterns = [path('api/v1/', include(router.urls)),
+               path('admin/', admin.site.urls),
+               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+if settings.DEBUG:
+    import debug_toolbar
+
+    urlpatterns = [path('__debug__/', include(debug_toolbar.urls)),
+                   ] + urlpatterns
