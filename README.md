@@ -82,12 +82,15 @@ helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
 helm repo update
 helm install ingress-nginx ingress-nginx/ingress-nginx
 ```
-и соответствующие манифесты для класса и ingress для django приложения:
+и соответствующие манифесты для класса и ingress:
 ```sh
 kubectl apply -f ./shared-k8s/ingress-class.yaml
 ```
 ```sh
 kubectl apply -f ./app/k8s/django-ingress.yaml
+```
+```sh
+kubectl apply -f ./app/k8s/chat-ingress.yaml
 ```
 
 ### `StorageClass`

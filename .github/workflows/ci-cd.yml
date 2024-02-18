@@ -101,4 +101,5 @@ jobs:
           kubectl apply -f app/k8s/django-deployment.yaml
           kubectl apply -f app/k8s/django-service.yaml
           kubectl apply -f app/k8s/django-ingress.yaml
+          kubectl apply -f app/k8s/chat-ingress.yaml
           kubectl set image deployment/django-deployment django=${{ secrets.DOCKERHUB_USERNAME }}/halloween_vegan_backend:${{ github.sha }} -n veg-hw
