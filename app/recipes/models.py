@@ -28,7 +28,7 @@ class Recipe(models.Model):
     year = models.PositiveIntegerField()
     internal_comment = models.TextField(null=True, blank=True)
     place = models.IntegerField(blank=True, null=True)
-    published = models.BooleanField(default=False)
+    published = models.BooleanField(default=False, db_index=True)
 
     slug = AutoSlugField(populate_from='title', unique=True, slugify=custom_slugify, always_update=True)
     created_at = models.DateTimeField(auto_now_add=True)
