@@ -36,6 +36,24 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'django-insecure-sdfSDFg7654#OWE$%^y
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DJANGO_DEBUG', 'true').lower() == 'true'
 
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        '': {  # Это означает, что будут логироваться сообщения всех логгеров
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    },
+}
+
 ALLOWED_HOSTS = ['80.90.187.166', '.seal-pavel.website', '127.0.0.1', os.getenv('POSTGRES_HOST', 'localhost'), ]
 CSRF_TRUSTED_ORIGINS = ['https://*.seal-pavel.website', ]
 
