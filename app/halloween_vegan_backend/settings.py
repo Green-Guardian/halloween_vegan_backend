@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'debug_toolbar',
+    'drf_spectacular',
     'django_cleanup.apps.CleanupConfig',
     'app.recipes.apps.RecipesConfig',
 ]
@@ -147,4 +148,11 @@ REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': [
         'rest_framework.renderers.JSONRenderer',
     ],
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Halloween vegan API',
+    'DESCRIPTION': 'API documentation for the <a href="https://github.com/Seal-Pavel/halloween_vegan_backend">Halloween vegan project</a>.',
+    'VERSION': '1.0.0',
 }
