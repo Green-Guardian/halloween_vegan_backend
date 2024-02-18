@@ -3,7 +3,6 @@ from rest_framework import serializers
 from app.recipes.models import Recipe
 
 from django.utils.timezone import now
-from django.core.files.uploadedfile import SimpleUploadedFile
 
 
 @extend_schema_serializer(
