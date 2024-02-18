@@ -52,6 +52,8 @@ INSTALLED_APPS = [
     'drf_spectacular',
     'django_cleanup.apps.CleanupConfig',
     'app.recipes.apps.RecipesConfig',
+    'channels',
+    'app.chat',
 ]
 
 MIDDLEWARE = [
@@ -70,6 +72,8 @@ INTERNAL_IPS = [
 ]
 
 ROOT_URLCONF = 'app.halloween_vegan_backend.urls'
+
+ASGI_APPLICATION = 'app.halloween_vegan_backend.asgi.application'
 
 TEMPLATES = [
     {
