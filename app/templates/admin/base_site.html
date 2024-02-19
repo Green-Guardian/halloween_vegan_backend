@@ -13,12 +13,12 @@
             bottom: 0;
             right: 0;
             width: 300px;
-            height: 400px;
+            height: 300px;
             border: 1px solid #ccc;
             background-color: #f9f9f9;
             z-index: 1000;
             overflow: auto;
-            padding: 10px;
+            padding: 2px;
         }
 
         #chat-log {
@@ -43,14 +43,16 @@
             chatLog.value = data.message + '\n' + chatLog.value;
         };
 
-        document.querySelector('#chat-message-submit').onclick = function (e) {
-            var messageInputDom = document.querySelector('#chat-message-input');
-            var message = messageInputDom.value;
-            chatSocket.send(JSON.stringify({
-                'message': message
-            }));
-            messageInputDom.value = '';
-        };
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelector('#chat-message-submit').onclick = function (e) {
+                var messageInputDom = document.querySelector('#chat-message-input');
+                var message = messageInputDom.value;
+                chatSocket.send(JSON.stringify({
+                    'message': message
+                }));
+                messageInputDom.value = '';
+            };
+        });
     </script>
 
     <div id="chat-box">
