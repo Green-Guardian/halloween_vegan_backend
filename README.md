@@ -45,7 +45,6 @@ cp postgres/.env-example postgres/.env && cp app/.env-example app/.env
 sudo nano путь/до/файла/.env
 ```
 (или через редактор: [postgres/.env](postgres%2F.env) и [app/.env](app%2F.env))
-### `Генерация секретного ключа Django`
 
 Чтобы сгенерировать секретный ключ django для проекта, выполните следующую команду в Python Shell:
 
