@@ -30,10 +30,7 @@
             width: 100%;
         }
     </style>
-{% endblock %}
 
-{% block extra_scripts %}
-    {{ block.super }}
     <script>
         var ws_scheme = window.location.protocol == "https:" ? "wss" : "ws";
         var chatSocket = new WebSocket(
@@ -55,13 +52,14 @@
             messageInputDom.value = '';
         };
     </script>
-{% endblock %}
 
-{% block content %}
-    {{ block.super }}
     <div id="chat-box">
         <textarea id="chat-log" disabled></textarea><br>
         <input id="chat-message-input" type="text"><br>
         <input id="chat-message-submit" type="button" value="Отправить">
     </div>
 {% endblock %}
+
+
+
+
