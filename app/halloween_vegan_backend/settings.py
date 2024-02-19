@@ -93,6 +93,15 @@ ROOT_URLCONF = 'app.halloween_vegan_backend.urls'
 
 ASGI_APPLICATION = 'app.halloween_vegan_backend.asgi.application'
 
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('redis', 6379)],
+        },
+    },
+}
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
