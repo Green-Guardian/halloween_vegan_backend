@@ -35,7 +35,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
             }
         )
 
-    async def hw_admin_chat_message(self, event):
+    async def chat_message(self, event):
         message = event['message']
 
         await self.send(text_data=json.dumps({
