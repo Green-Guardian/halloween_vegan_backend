@@ -4,7 +4,7 @@
 {% block extrahead %}
     <link rel="shortcut icon" type="image/x-icon" href="{% static 'app/favicon.ico' %}"/>
 
-    {#    <link rel="stylesheet" type="text/css" href="{% static 'css/chat.css' %}"/>#}
+{#    <link rel="stylesheet" href="{% static 'app/style.css' %}">#}
 
     {{ block.super }}
     <style>
@@ -31,40 +31,7 @@
         }
     </style>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            var chatSocket = new WebSocket(
-                (window.location.protocol === "https:" ? "wss://" : "ws://") + window.location.host + '/ws/app/chat/'
-            );
-
-            chatSocket.onmessage = function (e) {
-                var data = JSON.parse(e.data);
-                var chatLog = document.querySelector('#chat-log');
-                chatLog.value = data.message + '\n' + chatLog.value;
-            };
-
-            var sendMessage = function () {
-                var messageInputDom = document.querySelector('#chat-message-input');
-                var message = messageInputDom.value;
-                chatSocket.send(JSON.stringify({
-                    'message': message
-                }));
-                messageInputDom.value = '';
-            };
-
-            document.querySelector('#chat-message-submit').onclick = function (e) {
-                sendMessage();
-            };
-
-            document.querySelector('#chat-message-input').addEventListener('keypress', function (e) {
-                if (e.key === 'Enter' && !e.shiftKey) {  // Проверяем нажатие Enter без Shift
-                    e.preventDefault();  // Предотвращаем перенос строки для Enter
-                    sendMessage();
-                }
-            });
-        });
-
-    </script>
+    <script src="{% static 'app/chat.js' %}"></script>
 
     <div id="chat-box">
         <textarea id="chat-log" disabled></textarea><br>

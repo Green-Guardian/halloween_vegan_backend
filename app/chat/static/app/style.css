@@ -9,7 +9,7 @@
   --chat-options-svg: #a3a3a3; }
 
 body {
-  background: url(https://images.unsplash.com/photo-1495808985667-ba4ce2ef31b3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80);
+  background: url(https://seal-pavel.website/static/app/chat_bg.jpg);
   background-size: cover; }
 
 #chat {
@@ -28,7 +28,7 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: url(https://images.unsplash.com/photo-1495808985667-ba4ce2ef31b3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80) fixed;
+    background: url(https://seal-pavel.website/static/app/chat_bg.jpg) fixed;
     z-index: -1; }
   #chat .btn-icon {
     position: relative;
