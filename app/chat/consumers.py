@@ -33,7 +33,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
     @database_sync_to_async
     def get_chat_messages(self):
-        messages = ChatMessage.objects.all().order_by('-created_at')[:100]
+        messages = ChatMessage.objects.all().order_by('-created_at')[:1000]
         messages_list = [(message.message, message.user.username) for message in messages]
         messages_list.reverse()
         return messages_list

@@ -1,18 +1,17 @@
-{% load static %}
+    {% load static %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin chat</title>
-    <link rel="stylesheet" href="{% static 'chat/css/style.css' %}">
-    <link rel="shortcut icon" type="image/x-icon" href="{% static 'chat/chat_favicon.ico' %}"/>
-</head>
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Admin chat</title>
+        <link rel="stylesheet" href="{% static 'chat/css/style.css' %}">
+        <link rel="shortcut icon" type="image/x-icon" href="{% static 'chat/chat_favicon.ico' %}"/>
+    </head>
 
-<body class="--dark-theme">
-<div id="chat">
-    <div class="--dark-theme" id="chat">
+    <body class="--dark-theme chat-page-body">
+    <div class="chat" id="chat">
         <div class="chat__conversation-board">
         </div>
         <div class="chat__conversation-panel">
@@ -47,7 +46,6 @@
             </div>
         </div>
     </div>
-</div>
-<script src="{% static 'chat/js/chat.js' %}"></script>
-</body>
-</html>
+    <script src="{% static 'chat/js/chat.js' %}"></script>
+    </body>
+    </html>
