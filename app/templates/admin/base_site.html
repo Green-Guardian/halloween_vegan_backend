@@ -2,41 +2,16 @@
 {% load static %}
 
 {% block extrahead %}
-    <link rel="shortcut icon" type="image/x-icon" href="{% static 'app/favicon.ico' %}"/>
-
-{#    <link rel="stylesheet" href="{% static 'app/style.css' %}">#}
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'admin/admin_favicon.ico' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'admin/css/custom_admin.css' %}"/>
 
     {{ block.super }}
-    <style>
-        #chat-box {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 250px;
-            height: 400px;
-            border: 1px solid #ccc;
-            background-color: #f9f9f9;
-            z-index: 1000;
-            overflow: hidden;
-            padding: 10px;
-        }
-
-        #chat-log {
-            width: 100%;
-            height: 80%;
-        }
-
-        #chat-message-input, #chat-message-submit {
-            width: 100%;
-        }
-    </style>
-
-    <script src="{% static 'app/chat.js' %}"></script>
+    <script src="{% static 'chat/js/chat.js' %}"></script>
 
     <div id="chat-box">
         <textarea id="chat-log" disabled></textarea><br>
-        <input id="chat-message-input" type="text"><br>
-        <input id="chat-message-submit" type="button" value="Отправить">
+        <input id="chat__conversation-panel__input" type="text"><br>
+        <input id="send-message-button" type="button" value="Отправить">
     </div>
 {% endblock %}
 
