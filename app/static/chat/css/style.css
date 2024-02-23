@@ -314,8 +314,12 @@
 #admin-chat .chat__conversation-board {
     height: calc(350px - 45px - 50px); /* Высота чата минус высота панели ввода минус дополнительный отступ */
     overflow-y: auto;
-
 }
+
+#admin-chat .chat__conversation-board::-webkit-scrollbar {
+    display: none;
+}
+
 
 #admin-chat .chat__conversation-panel__input {
     font-size: 12px;

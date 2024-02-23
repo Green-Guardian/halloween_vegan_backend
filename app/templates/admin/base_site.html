@@ -6,18 +6,15 @@
     <link rel="stylesheet" href="{% static 'chat/css/style.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'admin/css/custom_admin.css' %}"/>
     {{ block.super }}
-    <script>
-        document.addEventListener('DOMContentLoaded', (event) => {
-            document.body.classList.add('--dark-theme');
-        });
-    </script>
     <script src="{% static 'chat/js/chat.js' %}"></script>
 
     <div class="chat admin-chat" id="admin-chat">
         <div class="chat__conversation-board">
         </div>
+
         <div class="chat__conversation-panel">
             <div class="chat__conversation-panel__container">
+                <!-- Элементы управления чатом -->
                 <button class="chat__conversation-panel__button panel-item btn-icon add-file-button">
                     <svg class="feather feather-plus sc-dnqmqq jxshSx" xmlns="http://www.w3.org/2000/svg" width="24"
                          height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -48,7 +45,4 @@
             </div>
         </div>
     </div>
-{% endblock %}
-
-{% block content %}
 {% endblock %}

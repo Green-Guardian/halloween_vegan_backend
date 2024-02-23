@@ -1,4 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
+    // Добавляем класс --dark-theme к body
+    document.body.classList.add('--dark-theme');
+
     var chatSocket = new WebSocket(
         (window.location.protocol === "https:" ? "wss://" : "ws://") + window.location.host + '/ws/app/chat/'
     );
