@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', function () {
-    // Добавляем класс --dark-theme к body
     document.body.classList.add('--dark-theme');
 
     var chatSocket = new WebSocket(
@@ -8,13 +7,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
     chatSocket.onmessage = function (e) {
         var data = JSON.parse(e.data);
-        if (data.type === "chat_message") {
+        if (data.type === "chat_message" || data.type === "chat_history") {
             addMessage(data.message, data.user, data.status); // 'sent' или 'received'
-        } else if (data.type === "chat_history") {
-            addMessage(data.message, data.user, data.status);
         }
     };
-
 
     var sendMessage = function () {
         var messageInputDom = document.querySelector('.chat__conversation-panel__input');
@@ -70,4 +66,20 @@ document.addEventListener('DOMContentLoaded', function () {
         chatLog.scrollTop = chatLog.scrollHeight;
     }
 
+    // Обработчики для сворачивания и разворачивания чата
+    var chatElement = document.querySelector('.floating-chat');
+    var chatHeader = document.querySelector('.floating-chat .header button');
+
+    chatElement.addEventListener('click', function (e) {
+        if (!chatElement.classList.contains('expand')) {
+            chatElement.classList.add('expand');
+            document.querySelector('.chat').style.display = 'flex';
+        }
+    });
+
+    chatHeader.addEventListener('click', function (e) {
+        e.stopPropagation(); // Предотвращаем всплытие, чтобы не сработал клик по родителю
+        chatElement.classList.remove('expand');
+        document.querySelector('.chat').style.display = 'none';
+    });
 });
