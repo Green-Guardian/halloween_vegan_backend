@@ -1,5 +1,6 @@
 from drf_spectacular.utils import extend_schema_view, extend_schema
 from rest_framework import viewsets
+from rest_framework.permissions import AllowAny
 
 from app.recipes.models import Recipe
 from app.recipes.serializers import RecipeSerializer
@@ -20,3 +21,10 @@ class RecipeViewSet(viewsets.ModelViewSet):
     """
     queryset = Recipe.objects.all()
     serializer_class = RecipeSerializer
+    permission_classes = [AllowAny]
+
+    def get_permissions(self):
+        if self.request.method == 'GET':
+            return [AllowAny()]
+        return super().get_permissions()
+
