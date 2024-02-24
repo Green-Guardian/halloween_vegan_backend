@@ -50,11 +50,21 @@ LOGGING = {
     },
 }
 
-ALLOWED_HOSTS = ['80.90.187.166', '.seal-pavel.website', '127.0.0.1', os.getenv('POSTGRES_HOST', 'localhost'), ]
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '80.90.187.166', '.seal-pavel.website',
+                 os.getenv('POSTGRES_HOST', 'localhost'), ]
+
 CSRF_TRUSTED_ORIGINS = ['https://*.seal-pavel.website', ]
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3010",
+    "http://127.0.0.1:3010",
+    "https://halloween.veganrussian.ru/",
+    "https://seal-pavel.github.io/halloween.veganrussian.ru/",
+]
 
 # Application definition
 INSTALLED_APPS = [
+    'corsheaders',
     'rest_framework',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -71,6 +81,8 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
