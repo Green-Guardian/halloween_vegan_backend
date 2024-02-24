@@ -50,7 +50,10 @@ LOGGING = {
     },
 }
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '80.90.187.166', '.seal-pavel.website',
+ALLOWED_HOSTS = ['localhost',
+                 '127.0.0.1',
+                 '80.90.187.166',
+                 '.seal-pavel.website',
                  os.getenv('POSTGRES_HOST', 'localhost'), ]
 
 CSRF_TRUSTED_ORIGINS = ['https://*.seal-pavel.website', ]
@@ -58,8 +61,8 @@ CSRF_TRUSTED_ORIGINS = ['https://*.seal-pavel.website', ]
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3010",
     "http://127.0.0.1:3010",
-    "https://halloween.veganrussian.ru/",
-    "https://seal-pavel.github.io/halloween.veganrussian.ru/",
+    "https://halloween.veganrussian.ru",
+    "https://seal-pavel.github.io",
 ]
 
 # Application definition
