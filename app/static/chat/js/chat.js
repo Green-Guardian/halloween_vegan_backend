@@ -65,21 +65,4 @@ document.addEventListener('DOMContentLoaded', function () {
         chatLog.appendChild(messageContainer);
         chatLog.scrollTop = chatLog.scrollHeight;
     }
-
-    // Обработчики для сворачивания и разворачивания чата
-    var chatElement = document.querySelector('.floating-chat');
-    var chatHeader = document.querySelector('.floating-chat .header button');
-
-    chatElement.addEventListener('click', function (e) {
-        if (!chatElement.classList.contains('expand')) {
-            chatElement.classList.add('expand');
-            document.querySelector('.chat').style.display = 'flex';
-        }
-    });
-
-    chatHeader.addEventListener('click', function (e) {
-        e.stopPropagation(); // Предотвращаем всплытие, чтобы не сработал клик по родителю
-        chatElement.classList.remove('expand');
-        document.querySelector('.chat').style.display = 'none';
-    });
 });

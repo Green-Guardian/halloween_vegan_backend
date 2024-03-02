@@ -3,36 +3,6 @@
 
 {% block extrahead %}
     <link rel="shortcut icon" type="image/x-icon" href="{% static 'admin/admin_favicon.ico' %}"/>
-    <link rel="stylesheet" href="{% static 'chat/css/style.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'admin/css/custom_admin.css' %}"/>
     {{ block.super }}
-    <script src="{% static 'chat/js/chat.js' %}"></script>
-
-    <div class="floating-chat">
-        <i class="fa fa-comments" aria-hidden="true"></i>
-        <div class="chat admin-chat" id="admin-chat">
-            <div class="header">
-                <button><i class="fa fa-times" aria-hidden="true"></i></button>
-            </div>
-            <div class="chat__conversation-board messages">
-                <!-- Сообщения -->
-            </div>
-            <div class="chat__conversation-panel footer">
-                <div class="chat__conversation-panel__container">
-                    <!-- Элементы управления чатом -->
-                    <input class="chat__conversation-panel__input text-box panel-item" placeholder="Type a message..."
-                           contenteditable="true"/>
-                    <button id="sendMessage"
-                            class="chat__conversation-panel__button panel-item btn-icon send-message-button">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                             aria-hidden="true" data-reactid="1036">
-                            <line x1="22" y1="2" x2="11" y2="13"></line>
-                            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-                        </svg>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
 {% endblock %}
