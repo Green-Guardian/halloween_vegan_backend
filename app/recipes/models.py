@@ -1,6 +1,7 @@
 from pathlib import Path
 
 from django.db import models
+from django.core.exceptions import ValidationError
 from django.utils.timezone import now
 
 from imagekit.models import ImageSpecField
@@ -53,6 +54,22 @@ class Recipe(models.Model):
 
     def __str__(self):
         return self.title
+
+    def clean(self):
+        if self.place is not None:
+            existing_recipe = Recipe.objects.filter(year=self.year, place=self.place).exclude(pk=self.pk)
+            if existing_recipe.exists():
+                existing_recipe_title = existing_recipe.first().title
+                raise ValidationError(
+                    {'place': f"Два рецепта одного года не могут быть на одном и том же призовом месте. "
+                              f"Конфликт с «{existing_recipe_title}»."}
+                )
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = custom_slugify(self.title)
+        self.clean()
+        super().save(*args, **kwargs)
 
     class Meta:
         app_label = 'recipes'

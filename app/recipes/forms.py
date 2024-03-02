@@ -51,3 +51,10 @@ class RecipeForm(forms.ModelForm):
                 ingredient["url"] = 'http' + parts[1].strip()
             ingredients_list.append(ingredient)
         return ingredients_list
+
+    def clean_place(self):
+        data = self.cleaned_data['place']
+        if data is not None:
+            if not (1 <= data <= 3):
+                raise forms.ValidationError("Недопустимое значение поля. Значение должно быть от 1 до 3.")
+            return data
