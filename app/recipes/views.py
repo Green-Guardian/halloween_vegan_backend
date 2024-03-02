@@ -1,6 +1,8 @@
 from drf_spectacular.utils import extend_schema_view, extend_schema
 from rest_framework import viewsets
 from rest_framework.permissions import AllowAny
+from rest_framework.decorators import action
+from rest_framework.response import Response
 
 from app.recipes.models import Recipe
 from app.recipes.serializers import RecipeSerializer
@@ -14,7 +16,10 @@ from django.shortcuts import get_object_or_404
     partial_update=extend_schema(summary="Частично обновить рецепт"),
     destroy=extend_schema(summary="Удалить рецепт"),
     list=extend_schema(summary="Получить список рецептов"),
-    retrieve=extend_schema(summary="Получить детали рецепта")
+    retrieve=extend_schema(summary="Получить детали рецепта"),
+    winners_all_years=extend_schema(summary="Получить рецепты победителей"),
+    winners_by_year=extend_schema(summary="Получить рецепты победителей по конкретному году"),
+    recipes_by_year=extend_schema(summary="Получить рецепты по году"),
 )
 class RecipeViewSet(viewsets.ModelViewSet):
     """
@@ -50,3 +55,35 @@ class RecipeViewSet(viewsets.ModelViewSet):
         self.check_object_permissions(self.request, obj)
 
         return obj
+
+    @action(detail=False, methods=['get'], url_path='winners/years')
+    def winners_all_years(self, request):
+        """
+        Возвращает список победителей для каждого года.
+        """
+        winners = Recipe.objects.filter(place__isnull=False).order_by('-year', 'place')
+        serializer = self.get_serializer(winners, many=True)
+        return Response(serializer.data)
+
+    @action(detail=False, methods=['get'], url_path='winners/years/(?P<year>[0-9]{4})')
+    def winners_by_year(self, request, year=None):
+        """
+        Возвращает список победителей за указанный год.
+        """
+        winners = self.queryset.filter(year=year).exclude(place__isnull=True).order_by('place')
+        serializer = self.get_serializer(winners, many=True)
+        return Response(serializer.data)
+
+    @action(detail=False, methods=['get'], url_path='year/(?P<year>[0-9]{4})')
+    def recipes_by_year(self, request, year=None):
+        """
+        Возвращает список рецептов за указанный год.
+        """
+        recipes = self.queryset.filter(year=year)
+        page = self.paginate_queryset(recipes)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(recipes, many=True)
+        return Response(serializer.data)
