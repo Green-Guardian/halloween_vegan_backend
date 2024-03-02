@@ -2,6 +2,8 @@ from django.contrib import admin, messages
 from django.utils.html import format_html
 from django.utils.timezone import now
 
+from easy_thumbnails.files import get_thumbnailer
+
 from app.recipes.models import Recipe
 from app.recipes.forms import RecipeForm
 
@@ -49,7 +51,10 @@ class RecipeAdmin(admin.ModelAdmin):
     # Отображение фото рецепта в админке
     def image_thumbnail(self, obj=None):
         if obj and obj.image:
-            return format_html('<img src="{}" style="width: 75px; height:auto;" />', obj.image.url)
+            # Получаем объект миниатюры с заданными параметрами
+            options = {'size': (70, 70), 'crop': True}
+            thumb_url = get_thumbnailer(obj.image).get_thumbnail(options).url
+            return format_html('<img src="{}" style="width: 70px; height:auto;" />', thumb_url)
         return "-"
 
     image_thumbnail.short_description = 'Image Preview'

@@ -1,3 +1,5 @@
+from pathlib import Path
+
 from django.db import models
 from django.utils.timezone import now
 
@@ -5,13 +7,16 @@ from autoslug import AutoSlugField
 from uuslug import slugify as uuslug_slugify
 
 
+# Для авто-миграций
 def custom_slugify(text, *args, **kwargs):
     return uuslug_slugify(text, *args, **kwargs)
 
 
 def upload_to_directory(instance, filename):
     current_year = now().year
-    return f'recipes/{current_year}/{filename}'
+    extension = Path(filename).suffix
+    new_filename = f"{instance.slug}_original{extension}"
+    return f'recipes/{current_year}/{new_filename}'
 
 
 class Recipe(models.Model):
