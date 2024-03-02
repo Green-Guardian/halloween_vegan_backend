@@ -2,8 +2,6 @@ from django.contrib import admin, messages
 from django.utils.html import format_html
 from django.utils.timezone import now
 
-from easy_thumbnails.files import get_thumbnailer
-
 from app.recipes.models import Recipe
 from app.recipes.forms import RecipeForm
 
@@ -37,24 +35,36 @@ class RecipeAdmin(admin.ModelAdmin):
     actions = (publish_recipes, unpublish_recipes)
     base_fieldsets = (
         ('Participant', {
-            'fields': ('author', 'author_link',)
+            'fields': (
+                'author',
+                'author_link',
+            )
         }),
         ('Recipe', {
             'fields': (
-            'image_thumbnail', 'image', 'title', 'description', 'ingredients', 'tools', 'steps', 'category', 'year',)
+                'image_thumbnail',
+                'image',
+                'title',
+                'description',
+                'ingredients',
+                'tools',
+                'steps',
+                'category',
+                'year',
+            )
         }),
         ('Other', {
-            'fields': ('internal_comment',)
+            'fields': (
+                'internal_comment',
+            )
         }),
     )
 
     # Отображение фото рецепта в админке
     def image_thumbnail(self, obj=None):
         if obj and obj.image:
-            # Получаем объект миниатюры с заданными параметрами
-            options = {'size': (70, 70), 'crop': True}
-            thumb_url = get_thumbnailer(obj.image).get_thumbnail(options).url
-            return format_html('<img src="{}" style="width: 70px; height:auto;" />', thumb_url)
+            return format_html('<img src="{}" style="width: 70px; height: 35px; object-fit: cover;" />',
+                               obj.image_small.url)
         return "-"
 
     image_thumbnail.short_description = 'Image Preview'

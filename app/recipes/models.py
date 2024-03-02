@@ -3,6 +3,9 @@ from pathlib import Path
 from django.db import models
 from django.utils.timezone import now
 
+from imagekit.models import ImageSpecField
+from imagekit.processors import ResizeToFit
+
 from autoslug import AutoSlugField
 from uuslug import slugify as uuslug_slugify
 
@@ -21,6 +24,15 @@ def upload_to_directory(instance, filename):
 
 class Recipe(models.Model):
     image = models.ImageField(upload_to=upload_to_directory)
+    image_average = ImageSpecField(source='image',
+                                   processors=[ResizeToFit(1500, 1500, False)],
+                                   format='WEBP',
+                                   options={'quality': 90})
+    image_small = ImageSpecField(source='image',
+                                 processors=[ResizeToFit(500, 500, False)],
+                                 format='WEBP',
+                                 options={'quality': 90})
+
     title = models.CharField(max_length=200, unique=True)
     author = models.CharField(max_length=100)
     author_link = models.URLField(blank=True)

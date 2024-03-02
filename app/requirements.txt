@@ -15,14 +15,15 @@ cryptography==41.0.7
 daphne==4.0.0
 Deprecated==1.2.14
 Django==4.2.7
+django-appconf==1.0.6
 django-autoslug==1.9.9
 django-cleanup==8.1.0
 django-cors-headers==4.3.1
 django-debug-toolbar==4.3.0
+django-imagekit==5.0.0
 django-uuslug==2.0.0
 djangorestframework==3.14.0
 drf-spectacular==0.27.1
-easy-thumbnails==2.8.5
 hyperlink==21.0.0
 idna==3.6
 incremental==22.10.0
@@ -32,6 +33,7 @@ jsonschema==4.21.1
 jsonschema-specifications==2023.12.1
 jwcrypto==1.5.1
 msgpack==1.0.7
+pilkit==3.0
 Pillow==10.1.0
 psycopg2-binary==2.9.9
 pyasn1==0.5.1

@@ -78,7 +78,7 @@ INSTALLED_APPS = [
     'debug_toolbar',
     'drf_spectacular',
     'django_cleanup.apps.CleanupConfig',
-    'easy_thumbnails',
+    'imagekit',
     'app.recipes.apps.RecipesConfig',
     'channels',
     'app.chat',
