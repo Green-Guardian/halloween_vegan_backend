@@ -17,7 +17,7 @@ from django.shortcuts import get_object_or_404
     destroy=extend_schema(summary="Удалить рецепт"),
     list=extend_schema(summary="Получить список рецептов"),
     retrieve=extend_schema(summary="Получить детали рецепта"),
-    winners_all_years=extend_schema(summary="Получить рецепты победителей"),
+    winners_all_year=extend_schema(summary="Получить рецепты победителей"),
     winners_by_year=extend_schema(summary="Получить рецепты победителей по конкретному году"),
     recipes_by_year=extend_schema(summary="Получить рецепты по году"),
 )
@@ -56,8 +56,8 @@ class RecipeViewSet(viewsets.ModelViewSet):
 
         return obj
 
-    @action(detail=False, methods=['get'], url_path='winners/years')
-    def winners_all_years(self, request):
+    @action(detail=False, methods=['get'], url_path='winners/year')
+    def winners_all_year(self, request):
         """
         Возвращает список победителей для каждого года.
         """
@@ -65,7 +65,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(winners, many=True)
         return Response(serializer.data)
 
-    @action(detail=False, methods=['get'], url_path='winners/years/(?P<year>[0-9]{4})')
+    @action(detail=False, methods=['get'], url_path='winners/year/(?P<year>[0-9]{4})')
     def winners_by_year(self, request, year=None):
         """
         Возвращает список победителей за указанный год.
