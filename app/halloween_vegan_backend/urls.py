@@ -10,7 +10,7 @@ from app.recipes.views import RecipeViewSet
 from app.chat.views import admin_chat_view
 
 router = DefaultRouter()
-router.register(r'recipes', RecipeViewSet)
+router.register(r'recipes', RecipeViewSet, basename='recipe')
 
 urlpatterns = [path('admin/chat/', admin_chat_view, name='admin_chat'),
                path('admin/', admin.site.urls),
