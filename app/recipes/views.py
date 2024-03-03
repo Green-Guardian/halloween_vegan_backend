@@ -59,7 +59,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
         else:
             filter_kwargs = {'slug': lookup_value}
 
-        obj = get_object_or_404(self.queryset, **filter_kwargs)
+        obj = get_object_or_404(self.get_queryset(), **filter_kwargs)
         self.check_object_permissions(self.request, obj)
 
         return obj
@@ -78,7 +78,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
         """
         Возвращает список победителей за указанный год.
         """
-        winners = self.queryset.filter(year=year).exclude(place__isnull=True).order_by('place')
+        winners = self.get_queryset().filter(year=year).exclude(place__isnull=True).order_by('place')
         serializer = self.get_serializer(winners, many=True)
         return Response(serializer.data)
 
@@ -87,7 +87,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
         """
         Возвращает список рецептов за указанный год.
         """
-        recipes = self.queryset.filter(year=year)
+        recipes = self.get_queryset().filter(year=year)
         page = self.paginate_queryset(recipes)
         if page is not None:
             serializer = self.get_serializer(page, many=True)
