@@ -26,9 +26,17 @@ class RecipeViewSet(viewsets.ModelViewSet):
     API эндпоинт для работы с рецептами.
     Позволяет просматривать, создавать, обновлять и удалять рецепты.
     """
-    queryset = Recipe.objects.all()
     serializer_class = RecipeSerializer
     permission_classes = [AllowAny]
+
+    def get_queryset(self):
+        """
+        Возвращает только опубликованные рецепты для GET-запросов.
+        Для других методов возвращает все рецепты.
+        """
+        if self.request.method == 'GET':
+            return Recipe.objects.filter(published=True)
+        return Recipe.objects.all()
 
     def get_serializer_context(self):
         context = super(RecipeViewSet, self).get_serializer_context()
