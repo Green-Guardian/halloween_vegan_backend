@@ -5,4 +5,16 @@
     <link rel="shortcut icon" type="image/x-icon" href="{% static 'admin/admin_favicon.ico' %}"/>
     <link rel="stylesheet" type="text/css" href="{% static 'admin/css/custom_admin.css' %}"/>
     {{ block.super }}
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var userTools = document.getElementById('user-tools');
+            var viewSiteLink = userTools.querySelector('a[href="/"]');
+            if (viewSiteLink) {
+                viewSiteLink.href = 'https://seal-pavel.github.io/halloween.veganrussian.ru/';
+                viewSiteLink.textContent = 'Stage';
+
+            }
+        });
+    </script>
 {% endblock %}
