@@ -8,5 +8,6 @@
     --header-link-color: #DFDCD3;
     --selected-row: #360d2c;
     --default-button-bg: #e9681a;
-    --body-fg: #eeeeee
+    --body-fg: #eeeeee;
+    --body-quiet-color: #e0e0e0;
 }

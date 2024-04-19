@@ -2,9 +2,9 @@
 {% load static %}
 
 {% block extrahead %}
+    {{ block.super }}
     <link rel="shortcut icon" type="image/x-icon" href="{% static 'admin/admin_favicon.ico' %}"/>
     <link rel="stylesheet" type="text/css" href="{% static 'admin/css/custom_admin.css' %}"/>
-    {{ block.super }}
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
