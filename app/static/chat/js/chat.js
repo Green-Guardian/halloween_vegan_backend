@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', function () {
     document.body.classList.add('--dark-theme');
 
     var chatSocket = new WebSocket(
-        (window.location.protocol === "https:" ? "wss://" : "ws://") + window.location.host + '/ws/app/chat/'
+        (window.location.protocol === "https:" ? "wss://" : "ws://") + window.location.host + '/halloween-vegan-backend/ws/app/chat/'
     );
 
     chatSocket.onmessage = function (e) {
