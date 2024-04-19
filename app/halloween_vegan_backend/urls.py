@@ -12,17 +12,18 @@ from app.chat.views import admin_chat_view
 router = DefaultRouter()
 router.register(r'recipes', RecipeViewSet, basename='recipe')
 
-urlpatterns = [path('admin/chat/', admin_chat_view, name='admin_chat'),
-               path('admin/', admin.site.urls),
-               path('api/v1/', include(router.urls)),
-               path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
-               path('api/schema/swagger-ui/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
+base_ulr = "halloween-vegan-backend/"
+urlpatterns = [path(f'{base_ulr}admin/chat/', admin_chat_view, name='admin_chat'),
+               path(f'{base_ulr}admin/', admin.site.urls),
+               path(f'{base_ulr}api/v1/', include(router.urls)),
+               path(f'{base_ulr}api/schema/', SpectacularAPIView.as_view(), name='schema'),
+               path(f'{base_ulr}api/schema/swagger-ui/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
                ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:
     import debug_toolbar
 
-    urlpatterns = [path('__debug__/', include(debug_toolbar.urls)),
+    urlpatterns = [path(f'{base_ulr}__debug__/', include(debug_toolbar.urls)),
                    ] + urlpatterns
 
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
