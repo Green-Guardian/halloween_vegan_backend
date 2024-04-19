@@ -4,14 +4,14 @@ metadata:
   name: django-ingress
   namespace: veg-hw
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/rewrite-target: /halloween-vegan-backend/
     nginx.ingress.kubernetes.io/proxy-body-size: "4M"
 spec:
   ingressClassName: nginx
   rules:
   - http:
       paths:
-      - path: /
+      - path: /halloween-vegan-backend/
         pathType: Prefix
         backend:
           service:
