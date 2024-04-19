@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         var avatarImg = document.createElement('img');
         // Используйте статический URL для изображения аватара пользователя или дефолтный аватар
-        avatarImg.src = "https://seal-pavel.website/static/app/favicon.ico"; // Пример URL к аватарке
+        avatarImg.src = "https://seal-pavel.website/halloween-vegan-backend/static/app/favicon.ico";
         avatarImg.classList.add('chat__conversation-board__message__person__avatar');
         avatarContainer.appendChild(avatarImg);
 
