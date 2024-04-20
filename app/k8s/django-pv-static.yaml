@@ -9,5 +9,5 @@ spec:
   accessModes:
     - ReadWriteOnce
   hostPath:
-    path: "/mnt/data/halloween_vegan_backend_stage/staticfiles"
+    path: "/mnt/data/halloween_vegan_backend/staticfiles"
   persistentVolumeReclaimPolicy: Delete

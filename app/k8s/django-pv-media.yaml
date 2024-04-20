@@ -9,5 +9,5 @@ spec:
   accessModes:
     - ReadWriteOnce
   hostPath:
-    path: "/mnt/data/halloween_vegan_backend_stage/media"
+    path: "/mnt/data/halloween_vegan_backend/media"
   persistentVolumeReclaimPolicy: Retain
