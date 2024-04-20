@@ -17,7 +17,7 @@ CI/CD scripts, documentation and other components necessary for the full develop
 ---
 - [Stage](https://github.com/Seal-Pavel/halloween.veganrussian.ru)
 - [Backend](https://github.com/Seal-Pavel/halloween_vegan_backend)
-- [API](https://seal-pavel.website/api/schema/swagger-ui/) (OpenApi3)
+- [API](https://seal-pavel.website/halloween-vegan-backend-stage/api/schema/swagger-ui/) (OpenApi3)
 
 ---
 # Execution environment
