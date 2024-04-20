@@ -44,9 +44,9 @@ spec:
             value: "app.halloween_vegan_backend.settings"
         volumeMounts:
           - name: static-content
-            mountPath: "/halloween_vegan_backend/app/staticfiles"
+            mountPath: "/halloween_vegan_backend_stage/app/staticfiles"
           - name: media-content
-            mountPath: "/halloween_vegan_backend/app/media"
+            mountPath: "/halloween_vegan_backend_stage/app/media"
 
       volumes:
         - name: static-content
