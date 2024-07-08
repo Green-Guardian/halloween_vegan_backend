@@ -5,13 +5,13 @@ from .models import Recipe
 class RecipeForm(forms.ModelForm):
     tools = forms.CharField(
         widget=forms.Textarea(attrs={'rows': 7, 'cols': 85}),
-        help_text="Каждый элемент с новой строки.")
+        help_text="Каждый элемент с новой строки")
     steps = forms.CharField(
         widget=forms.Textarea(attrs={'rows': 7, 'cols': 85}),
-        help_text="Каждый элемент с новой строки.")
+        help_text="Каждый элемент с новой строки")
     ingredients = forms.CharField(
         widget=forms.Textarea(attrs={'rows': 7, 'cols': 85}),
-        help_text="Каждый элемент с новой строки (в конце можно добавить ссылку в полном формате, с https://).")
+        help_text="Каждый элемент с новой строки (в конце можно добавить ссылку в полном формате, с https://)")
 
     class Meta:
         model = Recipe
