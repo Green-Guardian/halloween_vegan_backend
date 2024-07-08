@@ -74,7 +74,7 @@ class Recipe(models.Model):
     class Meta:
         app_label = 'recipes'
         permissions = [
-            ("can_choose_winners", "Может выбрать победителя"),
+            ("can_choose_winners", "Может выбрать победителей"),
             ("can_publish", "Может публиковать рецепты"),
             ("can_unpublish", "Может снимать рецепты с публикации"),
         ]
